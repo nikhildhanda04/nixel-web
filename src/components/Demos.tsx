@@ -10,9 +10,9 @@ import { Sprite } from "./Sprite";
  */
 
 const STALE = Symbol("stale");
-type Wait = (ms: number) => Promise<void>;
+export type Wait = (ms: number) => Promise<void>;
 
-function useLoop(ref: RefObject<HTMLElement | null>, run: (w: Wait) => Promise<void>) {
+export function useLoop(ref: RefObject<HTMLElement | null>, run: (w: Wait) => Promise<void>) {
   const runRef = useRef(run);
   useEffect(() => {
     runRef.current = run;

@@ -3,10 +3,12 @@ import { REPO } from "@/lib/links";
 import { Sprite } from "./Sprite";
 
 const LINKS = [
+  { href: "/#how", label: "How it works" },
   { href: "/#features", label: "Features" },
-  { href: "/#play", label: "Play" },
-  { href: "/#moods", label: "Moods" },
-  { href: "/setup", label: "Setup" },
+  { href: "/#uses", label: "Who it's for" },
+  { href: "/#team", label: "Teams" },
+  { href: "/#integrations", label: "Integrations" },
+  // { href: "/setup", label: "Setup" }, // Setup page is off until the exe/dmg download flow replaces it (old page kept in src/app/_setup).
   { href: REPO, label: "GitHub" },
 ];
 
@@ -18,7 +20,7 @@ export function Nav({ active }: { active?: string }) {
         <Sprite mood="idle" size={36} />
         Nikxel
       </Link>
-      <nav className="hidden gap-1 text-[15px] font-semibold md:flex">
+      <nav className="hidden gap-1 text-[15px] font-semibold lg:flex">
         {LINKS.map((l) => (
           <a
             key={l.href}
@@ -30,9 +32,10 @@ export function Nav({ active }: { active?: string }) {
           </a>
         ))}
       </nav>
-      <Link href="/setup" className="pill dark small">
+      {/* <Link href="/setup" className="pill dark small">
         Set it up
-      </Link>
+      </Link> */}
+      <span />
     </header>
   );
 }

@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en"><head><script>(function () {
+  var real = window.fetch;
+  var say = { chats: "In Nikxel, your WhatsApp chats show up here to send this to.", edit: "In Nikxel, the page rewrites itself here. This is a demo.", mic: "In Nikxel, you can say the change instead." };
+  window.fetch = function (u, o) {
+    if (String(u).indexOf("https://demo.nikxel/") !== 0) return real.apply(this, arguments);
+    var route = String(u).slice(20).split("?")[0];
+    return Promise.resolve(new Response(JSON.stringify({ error: say[route] || "That works in the Nikxel app. This is a demo." }), { headers: { "content-type": "application/json" } }));
+  };
+})();</script><meta charset="utf-8"><link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meeting — Design sync</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap">
+<style>:root {
+  --bg: #f6faf5; --surface: #ffffff; --ink: #25302a; --muted: #5c6a60; --faint: #8a968d; --line: #d7e9d6;
+  --accent: #23864d; --mint: #d6f3e3; --butter: #fff3c4; --lilac: #e8ddff; --peach: #ffe6d3; --sky: #e1eeff;
+  --warn-ink: #8a4a1c; --code-bg: #1f2823; --code-ink: #dfeee3;
+  --sans: "DM Sans", -apple-system, "Helvetica Neue", Helvetica, sans-serif;
+  --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+  --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111613; --surface: #181f1b; --ink: #e4efe7; --muted: #9eaca2; --faint: #74827a; --line: #26322b;
+  --accent: #6fd396; --mint: #1d3a2a; --butter: #3a3320; --lilac: #2c2640; --peach: #3c2a1f; --sky: #1c2a3c;
+  --warn-ink: #ffc8a6; --code-bg: #0c100e; --code-ink: #dfeee3; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111613; --surface: #181f1b; --ink: #e4efe7; --muted: #9eaca2; --faint: #74827a; --line: #26322b;
+  --accent: #6fd396; --mint: #1d3a2a; --butter: #3a3320; --lilac: #2c2640; --peach: #3c2a1f; --sky: #1c2a3c;
+  --warn-ink: #ffc8a6; --code-bg: #0c100e; --code-ink: #dfeee3; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+main { max-width: 780px; margin: 0 auto; padding-block: 56px 72px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+p { margin: 0; }
+b, strong { font-weight: 650; }
+code { font-family: var(--mono); font-size: .86em; background: var(--mint); padding: 1px 5px; border-radius: 5px; }
+
+.hero { display: grid; gap: 14px; padding-bottom: 28px; }
+.eyebrow { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 500 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.eyebrow .when { color: var(--muted); }
+.scribble { font: 600 26px/1 var(--hand); color: var(--accent); transform: rotate(-3deg); transform-origin: left; margin: 18px 0 -6px; }
+h1 { margin: 0; font: 750 clamp(27px, 4.4vw, 38px)/1.16 var(--sans); letter-spacing: -.02em; text-wrap: balance; }
+.summary { display: grid; gap: 10px; max-width: 64ch; color: var(--muted); font-size: 16.5px; }
+
+.client-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 18px; padding: 16px 18px; background: var(--sky); border: 1px solid var(--line); border-radius: 14px; }
+.client-cta .nx-client, .client-cta .nx-project { font: 600 14px/1 var(--sans); color: var(--surface); background: var(--accent); border: 0; border-radius: 10px; padding: 10px 16px; cursor: pointer; }
+.client-cta .nx-client:hover, .client-cta .nx-project:hover { transform: translateY(-1px); }
+.client-cta .nx-client:disabled, .client-cta .nx-project:disabled { opacity: .6; cursor: default; }
+.client-cta p { min-width: 0; flex: 1; color: var(--muted); font-size: 13.5px; }
+@media print { .client-cta { display: none; } }
+
+.glance { display: flex; flex-wrap: wrap; gap: 8px; padding: 18px 0; border-block: 1px solid var(--line); }
+.glance a { font: 400 13px/1 var(--mono); color: var(--muted); text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 8px 12px; }
+.glance a:hover, .glance a:focus-visible { border-color: var(--accent); color: var(--ink); outline: none; }
+.glance b { font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+.sec { padding-top: 44px; display: grid; gap: 16px; }
+h2 { margin: 0; display: flex; align-items: baseline; gap: 10px; font: 700 13px/1.2 var(--sans); letter-spacing: .09em; text-transform: uppercase; color: var(--ink); }
+h2 .n { font: 500 12px/1 var(--mono); color: var(--accent); background: var(--mint); border-radius: 99px; padding: 4px 8px; letter-spacing: 0; }
+h3 { margin: 8px 0 0; font-size: 16px; }
+
+ul { margin: 0; padding: 0; list-style: none; }
+.tasks { display: grid; gap: 10px; }
+.task { display: flex; gap: 14px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; transition: opacity .2s, transform .2s; }
+.task:hover { transform: translateY(-1px); }
+.task input { appearance: none; flex: none; width: 22px; height: 22px; margin: 1px 0 0; border: 2px solid var(--accent); border-radius: 7px; cursor: pointer; display: grid; place-content: center; background: var(--surface); }
+.task input::after { content: ""; width: 10px; height: 6px; border: solid var(--surface); border-width: 0 0 2.5px 2.5px; transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+.task input:checked { background: var(--accent); }
+.task input:checked::after { opacity: 1; }
+.task input:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+.task label { display: grid; gap: 10px; min-width: 0; cursor: pointer; }
+.task .t { font-weight: 600; line-height: 1.45; }
+.task:has(input:checked) { opacity: .55; }
+.task:has(input:checked) .t { text-decoration: line-through; text-decoration-color: var(--faint); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 12.5px/1 var(--sans); background: var(--mint); border-radius: 99px; padding: 4px 10px 4px 10px; }
+.chip.who { padding-left: 3px; }
+.chip.due { background: var(--butter); font-family: var(--mono); font-size: 12px; }
+.chip.unset { background: transparent; border: 1px dashed var(--line); color: var(--faint); }
+
+.decisions { display: grid; gap: 10px; }
+.decisions li { position: relative; padding-left: 34px; font-weight: 500; }
+.decisions li::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--surface); font: 700 13px/22px var(--sans); text-align: center; }
+
+.risks { display: grid; gap: 10px; }
+.risk { display: flex; gap: 12px; align-items: flex-start; background: var(--peach); border-radius: 14px; padding: 14px 16px; }
+.risk .mark { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--warn-ink); color: var(--warn-ink); font: 700 13px/18px var(--sans); text-align: center; margin-top: 1px; }
+.risk p { min-width: 0; }
+
+.questions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; }
+.q { display: flex; gap: 10px; background: var(--lilac); border-radius: 14px; padding: 14px 16px; }
+.q .mark { flex: none; font: 600 30px/0.9 var(--hand); color: var(--accent); }
+.q p { min-width: 0; }
+
+.points { display: grid; gap: 12px; }
+.points li { position: relative; padding-left: 22px; }
+.points li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.plain { display: grid; gap: 8px; padding-left: 20px; list-style: disc; }
+blockquote { margin: 0; padding: 4px 0 4px 44px; position: relative; font-size: 18px; line-height: 1.5; }
+blockquote::before { content: "\201C"; position: absolute; left: 0; top: -10px; font: 600 64px/1 var(--hand); color: var(--accent); }
+
+.meets { display: grid; gap: 10px; }
+.meet { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
+.cal { flex: none; width: 58px; border-radius: 10px; overflow: hidden; text-align: center; background: var(--sky); }
+.cal span { display: block; background: var(--accent); color: var(--surface); font: 600 11px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.cal b { display: block; font: 700 24px/1.6 var(--sans); }
+.mb { display: grid; gap: 2px; min-width: 0; }
+.mt { font-weight: 600; }
+.add { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.btn { font: 600 13px/1 var(--sans); color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn:hover { transform: translateY(-1px); }
+.btn:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+.mm { color: var(--muted); font-size: 14px; }
+
+.people { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+.person { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.ph { display: flex; gap: 12px; align-items: flex-start; }
+.ph > div { min-width: 0; padding-top: 2px; }
+.pn { font-weight: 700; }
+.pr { color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+.pb { display: grid; gap: 8px; font-size: 15px; }
+.pb ul { display: grid; gap: 6px; }
+.pb li { position: relative; padding-left: 16px; }
+.pb li::before { content: ""; position: absolute; left: 0; top: .7em; width: 6px; height: 2px; background: var(--faint); }
+.av { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-content: center; font: 700 14px/1 var(--sans); color: var(--ink); }
+.av.sm { width: 20px; height: 20px; font-size: 9px; }
+.t0 { background: var(--mint); } .t1 { background: var(--butter); } .t2 { background: var(--lilac); } .t3 { background: var(--peach); } .t4 { background: var(--sky); }
+.chip .av { background: var(--surface); }
+
+.prompt { border-radius: 14px; overflow: hidden; background: var(--code-bg); }
+.prh { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; color: var(--code-ink); font-weight: 600; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.copy { font: 500 12px/1 var(--mono); color: var(--code-ink); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
+.copy:hover, .copy:focus-visible { background: rgba(255,255,255,.16); outline: none; }
+pre { margin: 0; padding: 14px 16px; overflow-x: auto; color: var(--code-ink); font: 400 13px/1.6 var(--mono); white-space: pre-wrap; }
+pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+
+.empty { margin-top: 44px; padding-top: 18px; border-top: 1px dashed var(--line); color: var(--faint); font-size: 14px; }
+footer { margin-top: 28px; color: var(--faint); font-size: 12.5px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero, .glance, .sec { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+  .glance { animation-delay: .06s; }
+  .sec:nth-of-type(1) { animation-delay: .14s; } .sec:nth-of-type(2) { animation-delay: .18s; } .sec:nth-of-type(3) { animation-delay: .22s; }
+  @keyframes rise { from { transform: translateY(8px); } to { transform: none; } }
+}
+@media print {
+  body { background: #fff; } .glance, .copy, .add, footer, .scribble { display: none; }
+  .sec { break-inside: avoid; } .task, .person, .meet { border-color: #ccc; }
+}</style></head><body>
+<main>
+<header class="hero">
+<p class="eyebrow"><span>Minutes of meeting</span><span class="when">Today · 11:00 AM</span></p>
+<p class="scribble" aria-hidden="true">in short</p><h1>Onboarding ships Friday, without the video tour; Mei owns the copy.</h1>
+<div class="summary"><p>Sam showed the new five-screen onboarding on staging. Everyone liked the practice tour at the end; the video tour is cut for now because it isn’t ready and would push the date. Mei takes over the copy, and Priya wants the pricing page checked against the new plans before anything goes out.</p></div>
+</header>
+
+<div class="client-cta"><button type="button" class="nx-project">Share to project →</button>
+<p>Send these minutes to a project on your team dashboard, so everyone on it can read them.</p></div>
+<nav class="glance"><a href="#action-items"><b>3</b> Action Items</a><a href="#decisions"><b>2</b> Decisions</a><a href="#blockers-risks"><b>1</b> Blockers &amp; Risks</a><a href="#open-questions"><b>2</b> Open Questions</a><a href="#speakers">People</a></nav>
+<section id="action-items" class="sec">
+<h2>Action Items <span class="n">3</span></h2>
+<ul class="tasks">
+<li class="task"><input type="checkbox" id="task-1">
+<label for="task-1"><span class="t">Finish the onboarding copy for all five screens</span><span class="chips"><span class="chip who"><span class="av t1 sm" aria-hidden="true">M</span>Mei</span><span class="chip">Due Thursday</span></span></label></li>
+<li class="task"><input type="checkbox" id="task-2">
+<label for="task-2"><span class="t">Check the pricing page against the new plans</span><span class="chips"><span class="chip who"><span class="av t2 sm" aria-hidden="true">P</span>Priya</span><span class="chip">Due Wednesday</span></span></label></li>
+<li class="task"><input type="checkbox" id="task-3">
+<label for="task-3"><span class="t">Write the release note for onboarding</span><span class="chips"><span class="chip who"><span class="av t4 sm" aria-hidden="true">S</span>Sam (Me)</span><span class="chip">Due Friday</span></span></label></li>
+</ul>
+</section>
+<section id="decisions" class="sec">
+<h2>Decisions <span class="n">2</span></h2>
+<ul class="decisions"><li>Ship the new onboarding on <b>Friday</b>.</li><li><b>No video tour</b> in this release; the practice tour stays.</li></ul>
+</section>
+<section id="blockers-risks" class="sec">
+<h2>Blockers &amp; Risks <span class="n">1</span></h2>
+<div class="risks"><div class="risk"><span class="mark" aria-hidden="true">!</span><p><b>Pricing page is out of date</b> — it still shows last year’s plans; shipping onboarding before it’s fixed sends new people to the wrong prices.</p></div></div>
+</section>
+<section id="open-questions" class="sec">
+<h2>Open Questions <span class="n">2</span></h2>
+<div class="questions"><div class="q"><span class="mark" aria-hidden="true">?</span><p>Does the practice tour need a skip button on the first screen?</p></div><div class="q"><span class="mark" aria-hidden="true">?</span><p>When does the video tour come back: next release or the one after?</p></div></div>
+</section>
+<section id="speakers" class="sec">
+<h2>People</h2>
+<div class="people"><article class="person"><div class="ph"><span class="av t4" aria-hidden="true">S</span><div><p class="pn">Sam (Me)</p><p class="pr">Ran the demo and took the release note.</p></div></div>
+<div class="pb"><ul><li>Showed the five screens on staging</li><li>Proposed cutting the video tour to keep Friday</li></ul></div></article><article class="person"><div class="ph"><span class="av t1" aria-hidden="true">M</span><div><p class="pn">Mei</p><p class="pr">Owns the onboarding copy.</p></div></div>
+<div class="pb"><ul><li>Will rewrite the copy by Thursday</li><li>Asked for a skip button on the tour</li></ul></div></article><article class="person"><div class="ph"><span class="av t2" aria-hidden="true">P</span><div><p class="pn">Priya</p><p class="pr">Checks pricing before launch.</p></div></div>
+<div class="pb"><ul><li>Flagged the old prices on the pricing page</li></ul></div></article></div>
+</section>
+</main>
+<script>(function () {
+  var key = "nikxel:" + location.pathname;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) {}
+  document.querySelectorAll(".task input").forEach(function (box) {
+    if (box.id in saved) box.checked = saved[box.id];
+    box.addEventListener("change", function () {
+      saved[box.id] = box.checked;
+      try { localStorage.setItem(key, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var code = btn.closest(".prompt").querySelector("code");
+      var done = function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); };
+      var select = function () { var r = document.createRange(); r.selectNodeContents(code); var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+      if (navigator.clipboard) navigator.clipboard.writeText(code.textContent).then(done, select); else select();
+    });
+  });
+})();</script>
+<!--nikxel-share--><!--nxwa--><div id="nx-share"><button class="nx-btn nx-sharebtn" type="button">Share</button><div class="nx-pop" hidden>
+<button class="nx-copy" type="button">Copy file</button><div class="nx-or">or send on WhatsApp to</div>
+<input class="nx-q" placeholder="Search a chat or contact"><div class="nx-list"></div><div class="nx-msg"></div></div></div>
+<div id="nx-chat"><div class="nxc-log" hidden><div class="nxc-head"><button type="button" class="nxc-undo" title="Undo the last change">↺ Undo</button><button type="button" class="nxc-clear" title="Clear the chat">Clear</button></div><div class="nxc-msgs"></div></div><form class="nxc-form"><button type="button" class="nxc-mic" title="Speak" aria-label="Speak"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></button><input class="nxc-in" placeholder="Tell Nikxel what to change…" autocomplete="off"><button class="nxc-send" title="Send" aria-label="Send">↑</button></form></div>
+<style>
+#nx-share{position:fixed;right:20px;bottom:20px;z-index:99;font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1d1f}
+#nx-share .nx-btn{background:#1d1d1f;color:#fff;border:0;border-radius:999px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+#nx-chat{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(720px,calc(100vw - 32px));z-index:98;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+#nx-chat .nxc-log{max-height:44vh;overflow:auto;margin-bottom:8px;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(20px) saturate(1.7);backdrop-filter:blur(20px) saturate(1.7);border:1px solid rgba(0,0,0,.08);border-radius:18px;box-shadow:0 12px 44px rgba(0,0,0,.18)}
+#nx-chat .nxc-log[hidden]{display:none}
+#nx-chat .nxc-head{position:sticky;top:0;display:flex;justify-content:space-between;gap:8px;padding:8px 12px;background:inherit;border-bottom:1px solid rgba(0,0,0,.06)}
+#nx-chat .nxc-head button{border:0;background:none;color:#6e6e73;font:inherit;font-size:12px;cursor:pointer;padding:3px 8px;border-radius:7px}
+#nx-chat .nxc-head button:hover{background:rgba(0,0,0,.06);color:#1d1d1f}
+#nx-chat .nxc-msgs{display:flex;flex-direction:column;gap:8px;padding:12px}
+#nx-chat .nxc-msg{max-width:85%;padding:8px 12px;border-radius:14px;white-space:pre-wrap;font-size:13.5px}
+#nx-chat .nxc-me{align-self:flex-end;background:#1d1d1f;color:#fff;border-bottom-right-radius:5px}
+#nx-chat .nxc-bot{align-self:flex-start;background:rgba(0,0,0,.06);color:#1d1d1f;border-bottom-left-radius:5px}
+#nx-chat .nxc-form{display:flex;align-items:center;gap:4px;padding:5px 5px 5px 8px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(20px) saturate(1.7);backdrop-filter:blur(20px) saturate(1.7);border:1px solid rgba(0,0,0,.1);border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.16)}
+#nx-chat .nxc-in{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;color:#1d1d1f;padding:9px 6px}
+#nx-chat .nxc-mic,#nx-chat .nxc-send{width:34px;height:34px;border:0;border-radius:50%;cursor:pointer;flex:none;display:grid;place-items:center}
+#nx-chat .nxc-mic{background:transparent;color:#6e6e73}
+#nx-chat .nxc-mic:hover{background:rgba(0,0,0,.08)}
+#nx-chat .nxc-mic.rec{background:#ff3b30;color:#fff;animation:nxc-pulse 1.3s infinite}
+#nx-chat .nxc-send{background:#5e5ce6;color:#fff;font:17px/1 system-ui}
+#nx-chat .nxc-send:disabled{opacity:.5;cursor:default}
+@keyframes nxc-pulse{0%{box-shadow:0 0 0 0 rgba(255,59,48,.5)}100%{box-shadow:0 0 0 10px rgba(255,59,48,0)}}
+body.nx-has-chat{padding-bottom:104px}
+@media (prefers-color-scheme:dark){
+#nx-chat .nxc-log{background:rgba(28,28,32,.62);border-color:rgba(255,255,255,.1)}
+#nx-chat .nxc-head{border-bottom-color:rgba(255,255,255,.08)}
+#nx-chat .nxc-head button{color:#a0a0a8}
+#nx-chat .nxc-head button:hover{background:rgba(255,255,255,.1);color:#fff}
+#nx-chat .nxc-bot{background:rgba(255,255,255,.12);color:#f5f5f7}
+#nx-chat .nxc-form{background:rgba(36,36,40,.55);border-color:rgba(255,255,255,.14)}
+#nx-chat .nxc-in{color:#f5f5f7}
+#nx-chat .nxc-mic{color:#a0a0a8}
+#nx-chat .nxc-mic:hover{background:rgba(255,255,255,.1)}
+}
+@media print{#nx-chat{display:none}}
+#nx-share .nx-pop{position:absolute;right:0;bottom:52px;width:290px;background:#fff;border-radius:14px;padding:12px;box-shadow:0 10px 40px rgba(0,0,0,.22)}
+#nx-share .nx-pop[hidden]{display:none}
+#nx-share .nx-copy{width:100%;padding:9px;border:1px solid #d2d2d7;border-radius:9px;background:#f5f5f7;font:inherit;cursor:pointer}
+#nx-share .nx-or{margin:12px 2px 6px;color:#6e6e73;font-size:12px}
+#nx-share .nx-q{width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #d2d2d7;border-radius:9px;font:inherit}
+#nx-share .nx-list{max-height:230px;overflow:auto;margin-top:6px}
+#nx-share .nx-list button{display:block;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;background:none;font:inherit;color:inherit;cursor:pointer}
+#nx-share .nx-list button:hover{background:#f0f0f3}
+#nx-share .nx-msg{margin-top:8px;font-size:12px;color:#6e6e73}
+#nx-share .nx-msg:empty{display:none}
+@media print{#nx-share{display:none}}
+#nx-name{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:10px 12px;border:1px solid rgba(94,92,230,.25);border-radius:14px;background:rgba(94,92,230,.06);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+#nx-name .nxn-l{font-weight:600;color:#5e5ce6}
+#nx-name .nxn-in{flex:1;min-width:180px;padding:8px 10px;border:1px solid #d2d2d7;border-radius:9px;font:inherit;background:#fff;color:#1d1d1f}
+#nx-name button{border:0;border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+#nx-name .nxn-ok{background:#1d1d1f;color:#fff}
+#nx-name .nxn-no{background:transparent;color:#6e6e73}
+#nx-name button:disabled{opacity:.5;cursor:default}
+#nx-name .nxn-msg{width:100%;font-size:12px;color:#6e6e73}
+#nx-name .nxn-msg:empty{display:none}
+@media (prefers-color-scheme:dark){#nx-name .nxn-in{background:#1c1c1e;color:#f5f5f7;border-color:#3a3a3c}#nx-name .nxn-ok{background:#f5f5f7;color:#1d1d1f}#nx-name .nxn-no{color:#a0a0a8}}
+@media print{#nx-name{display:none}}
+li.task .nx-assign{margin-left:8px;vertical-align:middle;background:#1d1d1f;color:#fff;border:0;border-radius:999px;padding:3px 11px;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;opacity:.85}
+li.task .nx-assign:hover{opacity:1}
+li.task .nx-assign:disabled{opacity:.6;cursor:default}
+li.task .nx-assign.done{background:#34c759;opacity:1}
+@media print{li.task .nx-assign{display:none}}
+</style>
+<script>(function(){
+  var T = "demo", P = "https://demo.nikxel/";
+  var path = decodeURIComponent(location.pathname).replace(/^\/([A-Za-z]:)/, "$1");
+  var root = document.getElementById("nx-share"), pop = root.querySelector(".nx-pop");
+  var q = root.querySelector(".nx-q"), list = root.querySelector(".nx-list"), msg = root.querySelector(".nx-msg");
+  function call(route, extra) {
+    var p = new URLSearchParams(extra || {}); p.set("t", T); p.set("path", path);
+    return fetch(P + route + "?" + p).then(function (r) { return r.json(); },
+      function () { return { error: "Open Nikxel to share." }; });
+  }
+  function say(t) { msg.textContent = t || ""; }
+  var timer, asked = 0;
+  function load() {
+    var n = ++asked; say("Looking…");
+    call("chats", { q: q.value.trim() }).then(function (r) {
+      if (n !== asked) return;
+      list.innerHTML = ""; say(r.error || (r.chats.length ? "" : "No chats found."));
+      (r.chats || []).forEach(function (name) {
+        var b = document.createElement("button"); b.type = "button"; b.textContent = name;
+        b.onclick = function () {
+          if (!confirm("Send this page to " + name + " on WhatsApp?")) return;
+          say("Sending to " + name + "…");
+          call("send", { to: name }).then(function (r) { say(r.error || "Sent to " + name + " ✓"); });
+        };
+        list.appendChild(b);
+      });
+    });
+  }
+  // After Edit, watch the file and reload when the chat window changes it.
+  // sessionStorage keeps the watch going across that reload.
+  var v = 0;
+  function watch() {
+    call("version").then(function (r) {
+      // No answer (Nikxel restarting): keep asking rather than give up.
+      if (r.v && v && r.v !== v) { location.reload(); return; }
+      if (r.v) v = r.v;
+      setTimeout(watch, 2000);
+    });
+  }
+  try { if (sessionStorage.getItem("nx-editing")) watch(); } catch (e) {}
+  // Inline "tell Nikxel what to change" bar (replaces the old Edit dialog).
+  // Talks to /edit over the same bridge; the chat log survives the reload that
+  // shows each applied change, via sessionStorage.
+  var chat = document.getElementById("nx-chat");
+  if (chat) {
+    document.body.classList.add("nx-has-chat");
+    var clog = chat.querySelector(".nxc-log"), cmsgs = chat.querySelector(".nxc-msgs"), cin = chat.querySelector(".nxc-in");
+    var csend = chat.querySelector(".nxc-send"), cmic = chat.querySelector(".nxc-mic");
+    var cundo = chat.querySelector(".nxc-undo"), cclear = chat.querySelector(".nxc-clear"), LK = "nx-chatlog";
+    var cbubble = function (role, text) {
+      var d = document.createElement("div"); d.className = "nxc-msg " + (role === "me" ? "nxc-me" : "nxc-bot");
+      d.textContent = text; cmsgs.appendChild(d); clog.hidden = false; clog.scrollTop = clog.scrollHeight; return d;
+    };
+    var cstore = function (role, text) { try { var a = JSON.parse(sessionStorage.getItem(LK) || "[]"); a.push([role, text]); sessionStorage.setItem(LK, JSON.stringify(a.slice(-20))); } catch (e) {} };
+    try { JSON.parse(sessionStorage.getItem(LK) || "[]").forEach(function (m) { cbubble(m[0], m[1]); }); } catch (e) {}
+    var cbusy = false, rec = false;
+    var csync = function () { csend.disabled = cbusy || !cin.value.trim(); cin.disabled = cbusy; cmic.disabled = cbusy; };
+    var creload = function () { setTimeout(function () { location.reload(); }, 600); };
+    var crun = function (text) {
+      cbubble("me", text); cstore("me", text);
+      var w = cbubble("bot", "…"); cbusy = true; csync();
+      call("edit", { text: text }).then(function (r) {
+        var note = (r && (r.note || r.error)) || "Something went wrong.";
+        w.textContent = note; cstore("bot", note); cbusy = false; csync();
+        if (r && r.note) creload();   // applied — reload to show it; the log survives in sessionStorage
+      });
+    };
+    chat.querySelector(".nxc-form").onsubmit = function (e) { e.preventDefault(); var t = cin.value.trim(); if (!t || cbusy) return; cin.value = ""; csync(); crun(t); };
+    cin.oninput = csync;
+    cundo.onclick = function () {
+      if (cbusy) return; cbusy = true; csync();
+      call("edit", { undo: "1" }).then(function (r) {
+        var note = (r && (r.note || r.error)) || "Nothing to undo."; cbubble("bot", note); cstore("bot", note);
+        cbusy = false; csync(); if (r && r.note && r.note.indexOf("Nothing") < 0) creload();
+      });
+    };
+    cclear.onclick = function () { cmsgs.innerHTML = ""; clog.hidden = true; try { sessionStorage.removeItem(LK); } catch (e) {} };
+    // Voice: recorded and transcribed on-device by Nikxel (no audio leaves the machine).
+    cmic.onclick = function () {
+      if (cbusy) return;
+      if (!rec) {
+        call("mic", { do: "start" }).then(function (r) {
+          if (r && r.ok) { rec = true; cmic.classList.add("rec"); cin.placeholder = "Listening… tap the mic to stop"; }
+          else cbubble("bot", (r && r.error) || "Couldn't use the microphone.");
+        });
+        return;
+      }
+      rec = false; cmic.classList.remove("rec"); cin.placeholder = "Tell Nikxel what to change…";
+      cbusy = true; csync();
+      call("mic", { do: "stop" }).then(function (r) {
+        cbusy = false; csync();
+        var heard = (r && r.text) || "";
+        if (heard) { cin.value = (cin.value ? cin.value + " " : "") + heard; cin.focus(); csync(); }
+      });
+    };
+    csync();
+    // On open: a quick hand-drawn arrow from the title down to the chat bar, so
+    // people notice they can edit. Draws in, holds, fades out (~2.5s total).
+    function cHint() {
+      try {
+        var titleEl = document.querySelector(".date") || document.querySelector("h1") || document.querySelector("main");
+        if (!titleEl) return;
+        var tr = titleEl.getBoundingClientRect(), cr = chat.getBoundingClientRect(), NS = "http://www.w3.org/2000/svg";
+        var sx = tr.left, sy = tr.bottom + 4, ex = cr.left + 26, ey = cr.top - 14;
+        var leftX = Math.max(8, Math.min(sx, ex) - 90);    // bow well out into the left gutter
+        var svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("width", innerWidth); svg.setAttribute("height", innerHeight);
+        svg.style.cssText = "position:fixed;inset:0;z-index:97;pointer-events:none";
+        svg.innerHTML = '<defs><marker id="nxc-ah" markerWidth="10" markerHeight="10" refX="6.5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5e5ce6"/></marker></defs>';
+        var p = document.createElementNS(NS, "path");
+        p.setAttribute("d", "M " + sx + " " + sy + " C " + leftX + " " + (sy + 50) + " " + leftX + " " + (ey - 70) + " " + ex + " " + ey);
+        p.setAttribute("fill", "none"); p.setAttribute("stroke", "#5e5ce6"); p.setAttribute("stroke-width", "3");
+        p.setAttribute("stroke-linecap", "round"); p.setAttribute("marker-end", "url(#nxc-ah)");
+        svg.appendChild(p); document.body.appendChild(svg);
+        var cap = document.createElement("div"); cap.textContent = "Edit anything here";
+        cap.style.cssText = "position:fixed;left:" + ex + "px;top:" + (ey - 46) + "px;z-index:97;pointer-events:none;background:#5e5ce6;color:#fff;font:600 12px/1 system-ui,-apple-system,sans-serif;padding:6px 11px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 20px rgba(94,92,230,.45)";
+        document.body.appendChild(cap);
+        var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, len = p.getTotalLength();
+        p.style.strokeDasharray = len; p.style.strokeDashoffset = reduce ? 0 : len;
+        if (!reduce) p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 850, fill: "forwards", easing: "ease-out" });
+        cap.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 400, delay: reduce ? 0 : 500, fill: "both", easing: "ease-out" });
+        setTimeout(function () {
+          [svg, cap].forEach(function (el) { var f = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" }); f.onfinish = function () { el.remove(); }; });
+        }, 2500);
+      } catch (e) {}
+    }
+    setTimeout(cHint, 500);   // let layout and fonts settle first
+  }
+  document.querySelectorAll("input.nx-todo").forEach(function (b) {
+    b.disabled = false;
+    b.onchange = function () {
+      call("task", { i: b.getAttribute("data-i"), done: b.checked ? "1" : "0" }).then(function (r) {
+        if (r.error) { b.checked = !b.checked; alert(r.error); }
+      });
+    };
+  });
+  root.querySelector(".nx-sharebtn").onclick = function () {
+    pop.hidden = !pop.hidden; if (!pop.hidden) { q.focus(); load(); }
+  };
+  q.oninput = function () { clearTimeout(timer); timer = setTimeout(load, 500); };
+  root.querySelector(".nx-copy").onclick = function () {
+    call("copy").then(function (r) { say(r.error || "Copied. Paste it into any WhatsApp chat or group."); });
+  };
+  document.addEventListener("click", function (e) { if (!root.contains(e.target)) pop.hidden = true; });
+
+  // --- "Preview & share client summary": build the client-facing page from
+  // this meeting's Client Summary section and open it (it has its own Share).
+  var clientBtn = document.querySelector(".nx-client");
+  if (clientBtn) clientBtn.onclick = function () {
+    var old = clientBtn.textContent; clientBtn.disabled = true; clientBtn.textContent = "Preparing…";
+    call("client").then(function (r) {
+      clientBtn.disabled = false; clientBtn.textContent = old;
+      if (r && r.url) window.open(r.url, "_blank");
+      else alert((r && r.error) || "Couldn't build the client summary.");
+    });
+  };
+
+  // A named summary ("<name> <stamp>.html") shows its name on the tab, not the heading's date.
+  var named = /^(.+) \d{4}-\d\d-\d\d-\d{4,6}\.html$/.exec(path.split(/[\\/]/).pop());
+  if (named) document.title = named[1];
+
+  // --- A summary still named by its timestamp: Nikxel suggests a title on
+  // the page; the user saves it as is, edits it first, or keeps the date name.
+  var NK = "nx-named:" + path, kept = false;
+  try { kept = !!localStorage.getItem(NK); } catch (e) {}
+  if (/^\d{4}-\d\d-\d\d-\d{6}\.html$/.test(path.split(/[\\/]/).pop()) && !kept) {
+    var nb = document.createElement("div"); nb.id = "nx-name";
+    nb.innerHTML = '<span class="nxn-l">Name this file</span><input class="nxn-in" placeholder="Nikxel is thinking of a name…" disabled>'
+      + '<button type="button" class="nxn-ok" disabled>Save name</button><button type="button" class="nxn-no">Keep date name</button><span class="nxn-msg"></span>';
+    var nmain = document.querySelector("main") || document.body; nmain.insertBefore(nb, nmain.firstChild);
+    var nin = nb.querySelector(".nxn-in"), nok = nb.querySelector(".nxn-ok"), nmsg = nb.querySelector(".nxn-msg");
+    call("name").then(function (r) {
+      nin.disabled = nok.disabled = false; nin.placeholder = "Type a name";
+      if (r.name) nin.value = r.name; else nmsg.textContent = r.error || "";
+    });
+    var nsave = function () {
+      var v = nin.value.trim(); if (!v) { nin.focus(); return; }
+      nok.disabled = true; nmsg.textContent = "Renaming…";
+      call("name", { to: v }).then(function (r) {
+        if (r.url) { location.replace(r.url); return; }
+        nok.disabled = false; nmsg.textContent = r.error || "Couldn't rename.";
+      });
+    };
+    nok.onclick = nsave;
+    nin.onkeydown = function (e) { if (e.key === "Enter") nsave(); };
+    nb.querySelector(".nxn-no").onclick = function () { try { localStorage.setItem(NK, "1"); } catch (e) {} nb.remove(); };
+  }
+
+  // --- "Share to project": pick one of your dashboard projects, see exactly
+  // what goes (the minutes minus the client summary), then Send.
+  var projBtn = document.querySelector(".nx-project");
+  if (projBtn) projBtn.onclick = function () {
+    var dlg = document.createElement("dialog");
+    dlg.style.cssText = "width:min(560px,calc(100vw - 32px));box-sizing:border-box;border:0;border-radius:16px;padding:20px;font:14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;color:#1d1d1f;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.3)";
+    var btnCss = "border:0;border-radius:10px;padding:9px 16px;font:600 14px/1 system-ui,-apple-system,'Segoe UI',sans-serif;cursor:pointer;";
+    dlg.onclose = function () { dlg.remove(); };
+    document.body.appendChild(dlg); dlg.textContent = "Loading your projects…"; dlg.showModal();
+    function el(tag, css, text) { var e = document.createElement(tag); if (css) e.style.cssText = css; if (text != null) e.textContent = text; return e; }
+    function button(text, primary, onclick) {
+      var b = el("button", btnCss + (primary ? "background:#1d1d1f;color:#fff" : "background:#f0f0f3;color:#1d1d1f"), text);
+      b.type = "button"; b.onclick = onclick; return b;
+    }
+    function done(text) {
+      dlg.textContent = ""; dlg.appendChild(el("p", "margin:0 0 16px", text));
+      var row = el("div", "display:flex;justify-content:flex-end"); row.appendChild(button("Close", true, function () { dlg.close(); }));
+      dlg.appendChild(row);
+    }
+    call("projects").then(function (r) {
+      if (!r || r.error) return done((r && r.error) || "Couldn't reach Nikxel.");
+      if (!r.paired) return done("Connect Nikxel to the dashboard first");
+      if (!r.projects || !r.projects.length) return done("You're not on any project yet. Create one on the dashboard.");
+      dlg.textContent = "";
+      dlg.appendChild(el("h3", "margin:0 0 10px;font-size:16px", "Share to project"));
+      r.projects.forEach(function (p, i) {
+        var lab = el("label", "display:flex;gap:8px;align-items:center;padding:5px 2px;cursor:pointer"), radio = el("input");
+        radio.type = "radio"; radio.name = "nx-proj"; radio.value = p.id; radio.checked = i === 0; radio._name = p.name;
+        lab.appendChild(radio); lab.appendChild(el("span", "", p.name)); dlg.appendChild(lab);
+      });
+      dlg.appendChild(el("div", "margin:12px 0 6px;color:#6e6e73;font-size:12px", "Exactly what will be sent"));
+      dlg.appendChild(el("pre", "max-height:40vh;overflow:auto;white-space:pre-wrap;margin:0;padding:10px 12px;background:#f5f5f7;border-radius:10px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace", r.body));
+      var msg = el("p", "min-height:1.2em;margin:10px 0;color:#6e6e73;font-size:12px");
+      var row = el("div", "display:flex;justify-content:flex-end;gap:8px");
+      var send = button("Send", true, function () {
+        var pick = dlg.querySelector("input[name=nx-proj]:checked");
+        if (!pick) { msg.textContent = "Pick a project."; return; }
+        send.disabled = true; msg.textContent = "Sending…";
+        call("share-project", { project: pick.value }).then(function (s) {
+          if (s && s.ok) done("Shared to " + pick._name);
+          else { send.disabled = false; msg.textContent = (s && s.error) || "Couldn't share it."; }
+        });
+      });
+      row.appendChild(button("Cancel", false, function () { dlg.close(); })); row.appendChild(send);
+      dlg.appendChild(msg); dlg.appendChild(row);
+    });
+  };
+
+  // --- Daily page: cross out what stays private, then send the day to the
+  // org dashboard. What was crossed out comes back from <day>.sent.json.
+  var bar = document.querySelector(".nx-send");
+  if (bar) {
+    var sendBtn = bar.querySelector("button"), sentMsg = bar.querySelector(".nx-sent");
+    var hhmm = function (s) { var d = new Date(s * 1000); return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2); };
+    call("dashboard-state").then(function (r) {
+      if (!r || r.error) return;
+      bar.hidden = false;
+      document.querySelectorAll("[data-id]").forEach(function (el) {
+        if ((r.skip || []).indexOf(el.getAttribute("data-id")) >= 0) el.classList.add("x");
+      });
+      if (r.sentAt) sentMsg.textContent = "Sent " + hhmm(r.sentAt);
+    });
+    document.addEventListener("click", function (e) {
+      if (bar.hidden || e.target.closest("a, input, button")) return;
+      var item = e.target.closest("[data-id]"); if (!item) return;
+      e.preventDefault();   // a click on a task's text crosses it out rather than ticking it
+      item.classList.toggle("x");
+    });
+    sendBtn.onclick = function () {
+      var skip = [].map.call(document.querySelectorAll("[data-id].x"), function (el) { return el.getAttribute("data-id"); });
+      sendBtn.disabled = true; sentMsg.textContent = "Sending…";
+      call("dashboard", { skip: skip.join(",") }).then(function (r) {
+        sendBtn.disabled = false;
+        sentMsg.textContent = (r && r.error) || "Sent ✓ " + hhmm(Date.now() / 1000);
+      });
+    };
+  }
+
+  // --- One-click ERP "Assign" on each action item, when Forklyft ERP is
+  // connected. Creates the task (title + matched assignee + due) and opens it
+  // in this browser; the user sets the project and the rest in Odoo.
+  call("erp").then(function (r) {
+    if (!r || !r.connected) return;
+    var mon = { jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11 };
+    function pad(n){ return (n<10?"0":"")+n; }
+    function parseDue(t){
+      var m=(t||"").match(/(\d{1,2})\s+([A-Za-z]{3})/); if(!m) return "";
+      var mo=mon[m[2].toLowerCase()]; if(mo==null) return "";
+      var d=new Date(), dt=new Date(d.getFullYear(),mo,parseInt(m[1],10));
+      if(dt.getTime()<d.getTime()-30*864e5) dt.setFullYear(d.getFullYear()+1); // roll to next year if clearly past
+      return dt.getFullYear()+"-"+pad(dt.getMonth()+1)+"-"+pad(dt.getDate());
+    }
+    document.querySelectorAll("li.task").forEach(function(li){
+      var tEl=li.querySelector(".t"); if(!tEl) return;
+      var title=tEl.textContent.trim();
+      var whoEl=li.querySelector(".chip.who"), who="";
+      if(whoEl){ var c=whoEl.cloneNode(true), av=c.querySelector(".av"); if(av)av.remove(); who=c.textContent.trim(); }
+      var dueEl=li.querySelector(".chip.due"), dueText=dueEl?dueEl.textContent.replace(/^Due\s*/,"").trim():"";
+      var btn=document.createElement("button"); btn.type="button"; btn.className="nx-assign"; btn.textContent="Assign in ERP";
+      btn.onclick=function(e){
+        e.preventDefault(); e.stopPropagation();
+        if(btn.classList.contains("done")){ if(btn._url) window.open(btn._url,"_blank"); return; }
+        if(btn.disabled) return;
+        btn.textContent="Creating…"; btn.disabled=true;
+        call("assign",{ title:title, who:who, due:parseDue(dueText) }).then(function(r){
+          btn.disabled=false;
+          if(r && r.url){ btn._url=r.url; btn.classList.add("done"); btn.textContent="Open in ERP ✓"; window.open(r.url,"_blank"); }
+          else { btn.textContent="Assign in ERP"; alert((r&&r.error)||"Couldn't create the task in ERP."); }
+        });
+      };
+      (li.querySelector("label")||li).appendChild(btn);
+    });
+  });
+})();</script><!--/nikxel-share--></body></html>

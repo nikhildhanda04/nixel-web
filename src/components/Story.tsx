@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link"; // back with the download button
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Sprite, type Mood } from "./Sprite";
 
@@ -133,22 +133,22 @@ export function Story() {
             <h1 className="display enter text-[clamp(46px,6vw,92px)] !leading-[.98] !tracking-[-0.05em]" style={{ ["--d" as string]: ".08s" }}>
               A tiny pixel <span className="bub">you</span>
               <br />
-              on your Mac.
+              on your desktop.
             </h1>
             <p className="enter mx-auto mb-7 mt-6 max-w-[46ch] text-[clamp(17px,1.5vw,20px)] font-medium leading-normal text-muted" style={{ ["--d" as string]: ".16s" }}>
-              Nikxel lives on your desktop. It reacts while you type, records your meetings,
-              writes the minutes and nudges you before the next one.
+              Nikxel is a little pixel buddy on your desktop. It records your calls, writes the minutes,
+              sends them to the right project, answers WhatsApp while you&apos;re busy and writes up your day.
             </p>
             <div className="enter flex flex-wrap justify-center gap-3" style={{ ["--d" as string]: ".24s" }}>
-              <Link href="/setup" className="pill dark">
+              {/* <Link href="/setup" className="pill dark">
                 Set it up free
-              </Link>
-              <a href="#play" className="pill">
-                Play with it ↓
+              </Link> */}
+              <a href="#how" className="pill">
+                See how it works ↓
               </a>
             </div>
             <p className="enter mt-[18px] text-[14px] font-medium text-muted" style={{ ["--d" as string]: ".3s" }}>
-              Free and open source · <b className="text-ink">10 moods</b> · macOS 15+ on Apple Silicon
+              Runs on your computer with your own AI agent · <b className="text-ink">macOS, Windows and Linux</b>
             </p>
           </div>
 
@@ -182,6 +182,33 @@ export function Story() {
         </div>
       </section>
 
+      {/* HOW IT WORKS: one meeting, start to finish (a plain section, not pinned) */}
+      <section id="how" className="py-24 md:py-32">
+        <div className="wrap">
+          <div className="text-center">
+            <p className="tag">{"/* one call, start to finish */"}</p>
+            <h2 className="display text-[clamp(34px,4.4vw,64px)]">
+              You talk. Nikxel does the <span className="bub">rest</span>.
+            </h2>
+            <p className="sub mx-auto mt-4">No bot joins your call, no notes to type up, no &ldquo;can someone send the summary?&rdquo;</p>
+          </div>
+          <ol className="mt-14 grid gap-6 md:grid-cols-3">
+            {STEPS.map((st, i) => (
+              <li key={st.title} className="kind !w-auto">
+                <div className="demo !h-[250px]" style={{ ["--bg" as string]: st.bg }}>
+                  {st.demo}
+                </div>
+                <b>
+                  <span className="label mr-2 text-pink-deep">0{i + 1}</span>
+                  {st.title}
+                </b>
+                <small>{st.body}</small>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* 2 · ORBIT */}
       <section className="orbit" aria-label="Everything Nikxel keeps track of">
         <div className="orbit-sticky">
@@ -209,6 +236,7 @@ export function Story() {
           <div className="wrap">
             <p className="tag">{"/* cute, also useful */"}</p>
             <h2 className="display text-[clamp(34px,4.4vw,64px)]">Everything it does for you.</h2>
+            <p className="sub mt-4">Keep scrolling. There&apos;s a lot.</p>
           </div>
           <div className="shelf">
             {FEATURES.map((f) => (
@@ -422,13 +450,54 @@ const ORBIT: { ring: 0 | 1; node: ReactNode }[] = [
   { ring: 1, node: <Stamp mood="thinking" /> },
   { ring: 1, node: <span className="hand block -rotate-6 text-[44px] leading-none text-ink">Nikxel ✦</span> },
   { ring: 1, node: <Chip bg="var(--butter)">10 pm · day summary</Chip> },
+  { ring: 1, node: <Chip bg="var(--sky)">Gmail draft ready ✓</Chip> },
+  { ring: 0, node: <Note fill="var(--peach)" title="Sent to the team">3 items from today</Note> },
   { ring: 1, node: <Stamp mood="recording" /> },
+];
+
+const STEPS: { title: string; body: string; bg: string; demo: ReactNode }[] = [
+  {
+    title: "It hears the call",
+    body: "Zoom, Meet, Teams, WhatsApp: Nikxel spots the call and offers to record. Or double-click it. Transcribed on your computer.",
+    bg: "var(--blush)",
+    demo: (
+      <div className="grid justify-items-center">
+        <Rec label="Acme · pricing" time="31:07" />
+        <Sprite mood="recording" size={96} />
+      </div>
+    ),
+  },
+  {
+    title: "It writes the minutes",
+    body: "Decisions, who owes what by when, follow-ups and open questions, in the format you like.",
+    bg: "var(--butter)",
+    demo: (
+      <div className="grid justify-items-center">
+        <div className="-rotate-2">
+          <Doc title="Minutes · Acme pricing" lines={["Pro goes to $12 in March", "Ali: quote by Friday", "Next call: Tue 4pm"]} />
+        </div>
+        <Sprite mood="momReady" size={96} />
+      </div>
+    ),
+  },
+  {
+    title: "It follows through",
+    body: "Pushed to the right project for your team, the follow-up drafted in Gmail, tasks in your ERP. You just check and click.",
+    bg: "var(--mint)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <Chip>Pushed to Acme website ✓</Chip>
+        <Chip bg="var(--sky)">Follow-up drafted in Gmail ✓</Chip>
+        <Chip bg="var(--butter)">3 tasks in your ERP ✓</Chip>
+      </div>
+    ),
+  },
 ];
 
 const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] = [
   {
     title: "Records meetings",
-    body: "Double-click it. It listens and transcribes on your Mac, per speaker.",
+    body: "It notices Zoom, Meet, Teams or a WhatsApp call and offers to record. Transcribed on your computer, per speaker, in English, Hindi or Hinglish.",
     bg: "var(--blush)",
     demo: (
       <div className="grid justify-items-center">
@@ -439,7 +508,7 @@ const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] =
   },
   {
     title: "Writes the minutes",
-    body: "Your coding agent turns the transcript into minutes of the meeting (MOM).",
+    body: "Decisions, action items with owners, follow-ups and agent prompts. Pick a template (Developer, PM, HR, Co-founder) or write your own.",
     bg: "var(--butter)",
     demo: (
       <div className="grid justify-items-center">
@@ -451,8 +520,84 @@ const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] =
     ),
   },
   {
+    title: "Pushes to the right project",
+    body: "One click sends the minutes to your team dashboard. Nikxel guesses the project; a dropdown fixes it if it's wrong.",
+    bg: "var(--peach)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <Chip>Project: Acme website ▾</Chip>
+        <Chip bg="var(--mint)">Pushed to dashboard ✓</Chip>
+        <Sprite mood="done" size={96} />
+      </div>
+    ),
+  },
+  {
+    title: "Talks back",
+    body: "Click it and ask about your last two weeks: what did we decide, what do I owe Ali, draft the reply in Gmail.",
+    bg: "var(--mint)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <Chip>what do I owe Ali?</Chip>
+        <div className="rotate-2">
+          <Note fill="#fff" w={210}>The revised quote, by Friday. Want a draft?</Note>
+        </div>
+        <Sprite mood="thinking" size={96} />
+      </div>
+    ),
+  },
+  {
+    title: "Reads your files",
+    body: "Drop a PDF, Word file or screenshot in the chat. It's read on your computer, never uploaded.",
+    bg: "var(--butter)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <div className="-rotate-2">
+          <Doc title="SOP format.docx" lines={["1. Client goal", "2. Steps and owners", "3. Sign-off"]} />
+        </div>
+        <Chip>use this for client calls ↑</Chip>
+      </div>
+    ),
+  },
+  {
+    title: "Runs automations",
+    body: "Say it in words: “after every client call, write the SOP in my format.” It skips internal calls and runs on the rest.",
+    bg: "var(--lilac)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <Note fill="#fff" title="After every meeting" w={220}>
+          Only client calls · follows SOP format.docx
+        </Note>
+        <Sprite mood="thinking" size={96} />
+      </div>
+    ),
+  },
+  {
+    title: "Reminds you",
+    body: "“Remind me tomorrow morning to send the deck.” It pops up at 9 and waits if you're away.",
+    bg: "var(--sky)",
+    demo: (
+      <div className="grid justify-items-center gap-2">
+        <Chip>⏰ Send the deck · 9:00</Chip>
+        <Sprite mood="alert" size={128} />
+      </div>
+    ),
+  },
+  {
+    title: "Makes the tasks",
+    body: "Action items go to Google Tasks or any ERP in one click, with assignee, reviewer and deadline.",
+    bg: "var(--butter)",
+    demo: (
+      <div className="grid justify-items-center">
+        <div className="rotate-2">
+          <Todo title="To your ERP" items={[["Finish onboarding copy", true], ["Check the pricing page", true], ["Send the release note", false]]} />
+        </div>
+        <Sprite mood="done" size={96} />
+      </div>
+    ),
+  },
+  {
     title: "Answers WhatsApp",
-    body: "Replies for you while you're stuck in a call.",
+    body: "Replies for you while you're in a call, or drafts it for you to send. Quiet hours and a never-reply list.",
     bg: "var(--mint)",
     demo: (
       <div className="grid justify-items-center">
@@ -464,8 +609,36 @@ const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] =
     ),
   },
   {
+    title: "Sums up your day",
+    body: "Where your time went, every night at 10. A week in review lands on Sunday.",
+    bg: "var(--peach)",
+    demo: (
+      <div className="grid justify-items-center">
+        <div className="rotate-3">
+          <Note fill="#fff" title="Today, in short" w={200}>
+            3h 20m coding · 2 meetings · 41 messages
+          </Note>
+        </div>
+        <Sprite mood="petted" size={128} />
+      </div>
+    ),
+  },
+  {
+    title: "Edits by asking",
+    body: "Every summary opens as a page. Type “shorter” or “add Mei” at the bottom and it rewrites.",
+    bg: "var(--sky)",
+    demo: (
+      <div className="grid justify-items-center gap-3">
+        <div className="-rotate-2">
+          <Doc title="Design sync" lines={["Ship onboarding Friday", "Mei owns the copy"]} />
+        </div>
+        <Chip>make it one line ↑</Chip>
+      </div>
+    ),
+  },
+  {
     title: "Keeps you on time",
-    body: "Google Calendar and Apple Reminders pop up over its head.",
+    body: "Google Calendar, Apple Reminders and Google Tasks pop up over its head.",
     bg: "var(--sky)",
     demo: (
       <div className="grid justify-items-center gap-2">
@@ -476,7 +649,7 @@ const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] =
   },
   {
     title: "Watches your agent",
-    body: "Thinks while Claude Code, OpenCode or Codex work. Jumps when they finish.",
+    body: "Thinks while Claude Code, OpenCode, Codex or Antigravity work. Jumps when they finish.",
     bg: "var(--lilac)",
     demo: (
       <div className="grid justify-items-center">
@@ -488,17 +661,15 @@ const FEATURES: { title: string; body: string; bg: string; demo: ReactNode }[] =
     ),
   },
   {
-    title: "Sums up your day",
-    body: "Where your time went, written up every night at 10.",
-    bg: "var(--peach)",
+    title: "Learns how you work",
+    body: "Picks up your names, words and habits, and asks before it changes anything.",
+    bg: "var(--lilac)",
     demo: (
-      <div className="grid justify-items-center">
-        <div className="rotate-3">
-          <Note fill="#fff" title="Today, in short" w={200}>
-            3h 20m coding · 2 meetings · 41 messages
-          </Note>
-        </div>
-        <Sprite mood="petted" size={128} />
+      <div className="grid justify-items-center gap-2">
+        <Note fill="#fff" title="Noticed something" w={220}>
+          You send a follow-up after every client call. Want me to draft it?
+        </Note>
+        <Sprite mood="petted" size={96} />
       </div>
     ),
   },

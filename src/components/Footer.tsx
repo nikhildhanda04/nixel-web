@@ -9,11 +9,14 @@ export function Footer() {
         <Sprite mood="idle" size={64} />
       </div>
       <p className="text-[22px] font-extrabold tracking-[-0.02em] text-white">Nikxel</p>
-      <p className="mx-auto mt-2 max-w-[40ch] text-[17px] font-medium">A pixel-art desktop companion for macOS.</p>
+      <p className="mx-auto mt-2 max-w-[40ch] text-[17px] font-medium">Your meetings and your day, done for you. A pixel buddy for macOS, Windows and Linux.</p>
       <div className="mt-6 flex flex-wrap justify-center gap-2 text-[15px] font-semibold">
         <Link href="/#features" className="rounded-full px-4 py-2 hover:bg-white/10">Features</Link>
-        <Link href="/setup" className="rounded-full px-4 py-2 hover:bg-white/10">Setup</Link>
+        <Link href="/#how" className="rounded-full px-4 py-2 hover:bg-white/10">How it works</Link>
+        <Link href="/#team" className="rounded-full px-4 py-2 hover:bg-white/10">Teams</Link>
+        {/* <Link href="/setup" className="rounded-full px-4 py-2 hover:bg-white/10">Setup</Link> */}
         <a href={REPO} target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 text-pink-d hover:bg-white/10">GitHub ↗</a>
+        <a href="mailto:hi@nikxel.ai" className="rounded-full px-4 py-2 hover:bg-white/10">hi@nikxel.ai</a>
       </div>
       {/* Giant wordmark, cut in half by the page's bottom edge and fading out toward the top. */}
       <p

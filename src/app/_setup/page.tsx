@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Plug } from "@/components/Demos";
+import { Plug, Terminal } from "@/components/Demos";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
@@ -11,7 +11,7 @@ import { REPO } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "Set up Nikxel",
-  description: "Build Nikxel from source on your Mac: seven Terminal commands, about ten minutes.",
+  description: "Build Nikxel from source on your Mac, Windows PC or Linux box. About ten minutes.",
 };
 
 export default function SetupPage() {
@@ -36,6 +36,7 @@ export default function SetupPage() {
               <span>⏱ About 10 minutes</span>
               <span>✦ Only once</span>
               <span>🍎 macOS 15+, Apple Silicon</span>
+              <a href="#windows" className="underline decoration-2 underline-offset-4">🪟 Windows or 🐧 Linux? Jump down</a>
             </div>
           </div>
           <div className="enter" style={{ ["--d" as string]: ".12s" }}>
@@ -62,7 +63,7 @@ export default function SetupPage() {
                 <div className="hw hot">
                   <span className="hw-ic term-ic">&gt;_</span>
                   <b>A coding agent</b>
-                  <small>Claude Code, OpenCode or Codex</small>
+                  <small>Claude Code, OpenCode, Codex or Antigravity</small>
                 </div>
                 <i className="hw-arrow" />
                 <div className="hw">
@@ -85,13 +86,62 @@ export default function SetupPage() {
           <SetupSteps />
         </section>
 
+        {/* WINDOWS AND LINUX */}
+        <section id="windows" className="py-24 md:py-32">
+          <div className="wrap">
+            <Reveal className="text-center">
+              <p className="tag">{"/* not on a mac? */"}</p>
+              <h2 className="display text-[clamp(34px,4.4vw,64px)]">Windows and Linux: one script.</h2>
+              <p className="sub mx-auto mt-4">
+                The same Nikxel, built from the same clone. You need Node.js 20+, Git and a coding agent. The script installs, builds, starts Nikxel and adds it to startup.
+              </p>
+            </Reveal>
+            <div className="mt-14 grid gap-6 md:grid-cols-2">
+              <Reveal>
+                <p className="mb-3 text-[17px] font-bold">🪟 Windows 10 or 11, in PowerShell</p>
+                <Terminal
+                  title="PowerShell"
+                  prompt="PS>"
+                  script={[
+                    { cmd: "git clone https://github.com/nikhildhanda04/nikxel.git" },
+                    { out: "Cloning into 'nikxel'… done.", tone: "dim" },
+                    { cmd: "cd nikxel\\windows" },
+                    { cmd: ".\\setup.cmd" },
+                    { spin: "Installing and building", ms: 2200 },
+                    { out: "✓ Nikxel is running. Look for it in the tray (^).", tone: "ok" },
+                  ]}
+                />
+                <p className="mt-3 text-[14.5px] font-medium text-muted">
+                  Type the <code className="inline">{".\\"}</code> in front: PowerShell won&apos;t run a file from the current folder without it. Updates: Open Nikxel… → Advanced → Check for updates.
+                </p>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <p className="mb-3 text-[17px] font-bold">🐧 Ubuntu 22.04 or 24.04 (early)</p>
+                <Terminal
+                  script={[
+                    { cmd: "git clone https://github.com/nikhildhanda04/nikxel.git" },
+                    { out: "Cloning into 'nikxel'… done.", tone: "dim" },
+                    { cmd: "cd nikxel/windows" },
+                    { cmd: "./setup.sh" },
+                    { spin: "Installing and building", ms: 2200 },
+                    { out: "✓ Nikxel is running. Tray icon: top right.", tone: "ok" },
+                  ]}
+                />
+                <p className="mt-3 text-[14.5px] font-medium text-muted">
+                  Linux is early: chat, the Nikxel window, WhatsApp and Google work; meeting audio is your mic only for now. To update, run <code className="inline">./setup.sh</code> again.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* THE SETUP WINDOW */}
         <section id="wizard" className="py-24 md:py-32">
           <div className="wrap">
             <Reveal className="text-center">
               <p className="tag">{"/* first launch */"}</p>
               <h2 className="display text-[clamp(34px,4.4vw,64px)]">Then it walks you through the rest.</h2>
-              <p className="sub mx-auto mt-4">Five screens, about a minute. Click through it right here.</p>
+              <p className="sub mx-auto mt-4">Same on every platform. A few screens, then a short practice tour of the app. Click through it right here.</p>
             </Reveal>
             <Reveal delay={0.1} y={32} className="mt-14">
               <Wizard />
