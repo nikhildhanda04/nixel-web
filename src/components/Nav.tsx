@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { REPO } from "@/lib/links";
 import { Sprite } from "./Sprite";
 
 const LINKS = [
@@ -9,7 +8,6 @@ const LINKS = [
   { href: "/#team", label: "Teams" },
   { href: "/#integrations", label: "Integrations" },
   // { href: "/setup", label: "Setup" }, // Setup page is off until the exe/dmg download flow replaces it (old page kept in src/app/_setup).
-  { href: REPO, label: "GitHub" },
 ];
 
 /** Frosted pill that floats over the board. */
@@ -32,10 +30,9 @@ export function Nav({ active }: { active?: string }) {
           </a>
         ))}
       </nav>
-      {/* <Link href="/setup" className="pill dark small">
-        Set it up
-      </Link> */}
-      <span />
+      <Link href="/signup" className="pill dark small">
+        Sign up to use
+      </Link>
     </header>
   );
 }

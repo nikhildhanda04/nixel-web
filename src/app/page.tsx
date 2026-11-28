@@ -1,9 +1,8 @@
-// import Link from "next/link"; // back with the download button
+import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Playground } from "@/components/Playground";
 import { Reveal } from "@/components/Reveal";
 import { Footer } from "@/components/Footer";
-import { REPO } from "@/lib/links";
 import { Sprite, type Mood } from "@/components/Sprite";
 import { Story } from "@/components/Story";
 import { AdminDemo, AppDemo, MeetingDesk } from "@/components/Showcase";
@@ -313,14 +312,14 @@ export default function Home() {
                 <h2 className="display mt-2 text-[clamp(40px,5.4vw,76px)]">
                   Say hi to <span className="bub">Nikxel</span>.
                 </h2>
-                <p className="sub mx-auto mt-4">Your meetings written up, your day summed up, your team kept in the loop. Free, open source, on macOS, Windows and Linux.</p>
+                <p className="sub mx-auto mt-4">Your meetings written up, your day summed up, your team kept in the loop. On macOS and Windows.</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   {/* <Link href="/setup" className="pill dark">
                     Set it up
                   </Link> */}
-                  <a href={REPO} target="_blank" rel="noreferrer" className="pill">
-                    View on GitHub ↗
-                  </a>
+                  <Link href="/signup" className="pill dark">
+                    Sign up to use
+                  </Link>
                   <a href="mailto:hi@nikxel.ai" className="pill">
                     hi@nikxel.ai
                   </a>

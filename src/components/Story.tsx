@@ -1,6 +1,6 @@
 "use client";
 
-// import Link from "next/link"; // back with the download button
+import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Sprite, type Mood } from "./Sprite";
 
@@ -140,15 +140,15 @@ export function Story() {
               sends them to the right project, answers WhatsApp while you&apos;re busy and writes up your day.
             </p>
             <div className="enter flex flex-wrap justify-center gap-3" style={{ ["--d" as string]: ".24s" }}>
-              {/* <Link href="/setup" className="pill dark">
-                Set it up free
-              </Link> */}
+              <Link href="/signup" className="pill dark">
+                Sign up to use
+              </Link>
               <a href="#how" className="pill">
                 See how it works ↓
               </a>
             </div>
             <p className="enter mt-[18px] text-[14px] font-medium text-muted" style={{ ["--d" as string]: ".3s" }}>
-              Runs on your computer with your own AI agent · <b className="text-ink">macOS, Windows and Linux</b>
+              Runs on your computer with your own AI agent · <b className="text-ink">macOS and Windows</b>
             </p>
           </div>
 

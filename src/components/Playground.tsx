@@ -27,6 +27,7 @@ export function Playground() {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [text, setText] = useState("");
   const [hot, setHot] = useState(false);
+  const [picked, setPicked] = useState<ActionId>("meeting");
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const moodTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const keyTimes = useRef<number[]>([]);
@@ -120,6 +121,7 @@ export function Playground() {
   };
 
   const run = (id: ActionId) => {
+    setPicked(id);
     switch (id) {
       case "meeting":
         return toggleRecording();
@@ -152,6 +154,7 @@ export function Playground() {
     setBubbles([]);
     setText("");
     setHot(false);
+    setPicked("meeting");
     setMood("idle");
     avatarX.set(0);
     avatarY.set(0);
@@ -305,21 +308,24 @@ export function Playground() {
             {hot && mood === "typing" ? "Overheat" : LABEL[mood]}
           </motion.div>
         </div>
-        {ACTIONS.map((a, i) => (
+        {ACTIONS.map((a, i) => {
+          const on = a.id === picked;
+          return (
           <button
             key={a.id}
             type="button"
             onClick={() => run(a.id)}
             className={`btn !m-0 !justify-between !px-4 !py-3.5 !text-[13px] text-left sm:!px-5 sm:!text-[15px] ${
-              i === 0 ? "btn-red col-span-2 lg:col-span-1" : ""
-            }`}
+              on ? "btn-red" : ""
+            } ${i === 0 ? "col-span-2 lg:col-span-1" : ""}`}
           >
             <span>{a.id === "meeting" && recording ? "Stop meeting" : a.label}</span>
-            <span className={`hidden font-mono text-[10px] font-normal normal-case tracking-normal sm:inline ${i === 0 ? "text-white/60" : "text-muted"}`}>
+            <span className={`hidden font-mono text-[10px] font-normal normal-case tracking-normal sm:inline ${on ? "text-white/60" : "text-muted"}`}>
               {a.id === "meeting" && touch ? "or double-tap it" : a.hint}
             </span>
           </button>
-        ))}
+          );
+        })}
         <div className="col-span-2 flex items-center justify-between gap-4 pt-1 lg:col-span-1">
           <p className="text-[15px] text-muted">
             {touch ? "Tap it to pet it. Drag it around." : "Click it to pet it. Drag it around. It watches your cursor."}

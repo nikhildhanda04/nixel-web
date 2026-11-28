@@ -17,7 +17,7 @@ const hand = Caveat({
 export const metadata: Metadata = {
   title: "Nikxel — your meetings and your day, done for you",
   description:
-    "Nikxel is a pixel buddy on your desktop that records your calls, writes the minutes, pushes them to the right project, runs your follow-ups, answers WhatsApp and writes up your day. On macOS, Windows and Linux, with your own AI agent.",
+    "Nikxel is a pixel buddy on your desktop that records your calls, writes the minutes, pushes them to the right project, runs your follow-ups, answers WhatsApp and writes up your day. On macOS and Windows, with your own AI agent.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
